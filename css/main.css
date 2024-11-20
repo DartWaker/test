@@ -149,5 +149,8 @@ body {
 	border-radius: 30px;
 	cursor: pointer;
 }
+.gallery__item {
+  will-change: transform, opacity;
+}
 
 
