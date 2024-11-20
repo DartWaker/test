@@ -1,25 +1,12 @@
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+gsap.registerPlugin(ScrollTrigger);
 
-// Установка плавного прокручивания только для ПК
+// Убираем ScrollSmoother на мобильных устройствах для повышения производительности
 if (ScrollTrigger.isTouch !== 1) {
   ScrollSmoother.create({
     wrapper: '.wrapper',
     content: '.content',
-    smooth: 1.5, // Плавность прокрутки
-    effects: true // Включены эффекты
-  });
-} else {
-  // Принудительное создание ScrollSmoother для мобильных устройств
-  ScrollSmoother.create({
-    wrapper: '.wrapper',
-    content: '.content',
-    smooth: 1.5,
-    effects: true
-  });
-
-  // Принудительное обновление ScrollTrigger для мобильных устройств
-  ScrollTrigger.addEventListener("refreshInit", () => {
-    ScrollTrigger.refresh(); // Обновляем ScrollTrigger вручную при инициализации
+    smooth: 1.5, // Плавность прокрутки для ПК
+    effects: true // Включаем эффекты для ПК
   });
 }
 
@@ -29,64 +16,47 @@ gsap.fromTo('.hero-section', { opacity: 1 }, {
   scrollTrigger: {
     trigger: '.hero-section',
     start: 'center',
-    end: '820',
-    scrub: true,
-    delay: ScrollTrigger.isTouch === 1 ? 0.3 : 0 // Задержка для мобильных устройств
+    end: 'bottom',
+    scrub: true
   }
 });
 
-// Анимация для левых элементов галереи с улучшениями
+// Упрощенная анимация для левых элементов галереи
 let itemsL = gsap.utils.toArray('.gallery__left .gallery__item');
 itemsL.forEach(item => {
-  gsap.fromTo(item, { opacity: 0, x: -50 }, {
-    opacity: 1, 
+  gsap.fromTo(item, { opacity: 0, x: -30 }, {
+    opacity: 1,
     x: 0,
-    transformOrigin: "center",
     scrollTrigger: {
       trigger: item,
-      start: '-850',
-      end: '-100',
-      scrub: true,
-      onEnter: () => { 
-        if (ScrollTrigger.isTouch === 1) {
-          gsap.to(item, { opacity: 1, x: 0 });
-        } else {
-          gsap.to(item, { opacity: 1, x: 0, delay: 0.3 }); // Задержка для десктопов
-        }
-      }
+      start: 'top bottom',
+      end: 'top center',
+      scrub: true
     }
   });
 });
 
-// Анимация для правых элементов галереи с улучшениями
+// Упрощенная анимация для правых элементов галереи
 let itemsR = gsap.utils.toArray('.gallery__right .gallery__item');
 itemsR.forEach(item => {
-  gsap.fromTo(item, { opacity: 0, x: 50 }, {
-    opacity: 1, 
+  gsap.fromTo(item, { opacity: 0, x: 30 }, {
+    opacity: 1,
     x: 0,
-    transformOrigin: "center",
     scrollTrigger: {
       trigger: item,
-      start: '-750',
-      end: 'top',
-      scrub: true,
-      onEnter: () => { 
-        if (ScrollTrigger.isTouch === 1) {
-          gsap.to(item, { opacity: 1, x: 0 });
-        } else {
-          gsap.to(item, { opacity: 1, x: 0, delay: 0.3 }); // Задержка для десктопов
-        }
-      }
+      start: 'top bottom',
+      end: 'top center',
+      scrub: true
     }
   });
 });
 
-// Обновление ScrollTrigger с каждым кадром
-gsap.ticker.add(() => {
-  ScrollTrigger.update();
-});
+// Убираем лишние обновления ScrollTrigger, чтобы улучшить производительность
+// (если нет необходимости в постоянном обновлении).
+// gsap.ticker.add(() => {
+//   ScrollTrigger.update();
+// });
 
-// Прелоадер и обновление ScrollTrigger после загрузки контента
 document.addEventListener('DOMContentLoaded', function () {
   let images = document.images;
   let totalImages = images.length;
@@ -102,9 +72,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (loadedImages === totalImages) {
       document.getElementById('preloader').style.display = 'none';
       document.getElementById('content').style.display = 'block';
-
-      // Принудительное обновление ScrollTrigger после скрытия прелоадера
-      ScrollTrigger.refresh();
     }
   }
 
@@ -113,9 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
     updateLoadingPercentage(); // Сразу показываем 100%
     document.getElementById('preloader').style.display = 'none';
     document.getElementById('content').style.display = 'block';
-
-    // Принудительное обновление ScrollTrigger
-    ScrollTrigger.refresh();
   } else {
     // Слушаем событие загрузки для каждого изображения
     Array.from(images).forEach(function (img) {
