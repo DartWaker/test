@@ -24,6 +24,9 @@ h1, h2, h3, h4, h5, h6 {
 .content, .hero, .main-header, .gallery > * {
 	will-change: transform;
 }
+html {
+  overflow-x: hidden; /* Скрывает горизонтальную прокрутку */
+}
 body {
 	background-image: url(../img/bg.jpg);
 	background-size: 50px;
