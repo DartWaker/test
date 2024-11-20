@@ -1,27 +1,7 @@
-window.onload = function() {
-  // Скрываем прелоадер после загрузки страницы
-  const preloader = document.querySelector('.preloader');
-  
-  // Плавное исчезновение прелоадера
-  preloader.style.opacity = 0;
-  
-  // Через 1 секунду полностью удаляем прелоадер
-  setTimeout(function() {
-    preloader.style.display = 'none';
-  }, 1000);
-};
-
-
-
-
-
-
-
-
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 // Установка плавного прокручивания только для ПК
-if (ScrollTrigger.isTouch !== 1) {
+if (window.innerWidth > 768) {  // Отключаем для мобильных устройств (ширина экрана больше 768px)
   ScrollSmoother.create({
     wrapper: '.wrapper',
     content: '.content',
@@ -54,7 +34,11 @@ itemsL.forEach(item => {
       end: '-100',
       scrub: true,
       // Ограничение анимации на мобильных устройствах
-      onEnter: () => { if (ScrollTrigger.isTouch === 1) gsap.to(item, { opacity: 1, x: 0 }); }
+      onEnter: () => { 
+        if (window.innerWidth <= 768) {
+          gsap.to(item, { opacity: 1, x: 0 });  // Простая анимация для мобильных устройств
+        }
+      }
     }
   });
 });
@@ -72,7 +56,11 @@ itemsR.forEach(item => {
       end: 'top',
       scrub: true,
       // Ограничение анимации на мобильных устройствах
-      onEnter: () => { if (ScrollTrigger.isTouch === 1) gsap.to(item, { opacity: 1, x: 0 }); }
+      onEnter: () => { 
+        if (window.innerWidth <= 768) {
+          gsap.to(item, { opacity: 1, x: 0 });  // Простая анимация для мобильных устройств
+        }
+      }
     }
   });
 });
