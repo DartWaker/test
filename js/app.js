@@ -21,7 +21,7 @@ gsap.fromTo('.hero-section', { opacity: 1 }, {
   }
 });
 
-// Анимация для левых элементов галереи с улучшениями
+// Упростим анимации для левых элементов галереи на мобильных
 let itemsL = gsap.utils.toArray('.gallery__left .gallery__item');
 itemsL.forEach(item => {
   gsap.fromTo(item, { opacity: 0, x: -50 }, {
@@ -36,14 +36,14 @@ itemsL.forEach(item => {
       // Ограничение анимации на мобильных устройствах
       onEnter: () => { 
         if (window.innerWidth <= 768) {
-          gsap.to(item, { opacity: 1, x: 0 });  // Простая анимация для мобильных устройств
+          gsap.to(item, { opacity: 1, x: 0, duration: 0.5 });  // Простая анимация для мобильных устройств
         }
       }
     }
   });
 });
 
-// Анимация для правых элементов галереи с улучшениями
+// Упростим анимации для правых элементов галереи на мобильных
 let itemsR = gsap.utils.toArray('.gallery__right .gallery__item');
 itemsR.forEach(item => {
   gsap.fromTo(item, { opacity: 0, x: 50 }, {
@@ -58,9 +58,14 @@ itemsR.forEach(item => {
       // Ограничение анимации на мобильных устройствах
       onEnter: () => { 
         if (window.innerWidth <= 768) {
-          gsap.to(item, { opacity: 1, x: 0 });  // Простая анимация для мобильных устройств
+          gsap.to(item, { opacity: 1, x: 0, duration: 0.5 });  // Простая анимация для мобильных устройств
         }
       }
     }
   });
 });
+
+// Отключаем ScrollSmoother и ScrollTrigger для мобильных устройств
+if (window.innerWidth <= 768) {
+  ScrollTrigger.refresh();  // Пересчитываем ScrollTrigger
+}
