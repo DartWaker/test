@@ -16,6 +16,11 @@ if (ScrollTrigger.isTouch !== 1) {
     smooth: 1.5,
     effects: true
   });
+
+  // Принудительное обновление ScrollTrigger для мобильных устройств
+  ScrollTrigger.addEventListener("refreshInit", () => {
+    ScrollTrigger.refresh(); // Обновляем ScrollTrigger вручную при инициализации
+  });
 }
 
 // Анимация для секции hero
