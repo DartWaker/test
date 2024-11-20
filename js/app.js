@@ -21,11 +21,13 @@ gsap.fromTo('.hero-section', { opacity: 1 }, {
   }
 });
 
-// Анимация для левых элементов галереи с проверкой на мобильные устройства
+// Анимация для левых элементов галереи с улучшениями
 let itemsL = gsap.utils.toArray('.gallery__left .gallery__item');
 itemsL.forEach(item => {
   gsap.fromTo(item, { opacity: 0, x: -50 }, {
-    opacity: 1, x: 0,
+    opacity: 1, 
+    x: 0,
+    transformOrigin: "center",
     scrollTrigger: {
       trigger: item,
       start: '-850',
@@ -37,11 +39,13 @@ itemsL.forEach(item => {
   });
 });
 
-// Анимация для правых элементов галереи с проверкой на мобильные устройства
+// Анимация для правых элементов галереи с улучшениями
 let itemsR = gsap.utils.toArray('.gallery__right .gallery__item');
 itemsR.forEach(item => {
   gsap.fromTo(item, { opacity: 0, x: 50 }, {
-    opacity: 1, x: 0,
+    opacity: 1, 
+    x: 0,
+    transformOrigin: "center",
     scrollTrigger: {
       trigger: item,
       start: '-750',
