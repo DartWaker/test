@@ -29,9 +29,21 @@ itemsL.forEach(item => {
     x: 0,
     scrollTrigger: {
       trigger: item,
-      start: 'top bottom',
+      start: 'top bottom',  // Элемент должен появляться, когда он появляется на экране
       end: 'top center',
-      scrub: true
+      scrub: true,
+      // Убираем исчезновение на мобильных устройствах
+      onEnter: () => {
+        if (ScrollTrigger.isTouch !== 1) {
+          gsap.to(item, { opacity: 1, x: 0 });
+        }
+      },
+      // Убираем исчезновение при выходе с экрана
+      onLeave: () => {
+        if (ScrollTrigger.isTouch !== 1) {
+          gsap.to(item, { opacity: 1, x: 0 });  // Не скрываем элемент
+        }
+      }
     }
   });
 });
@@ -44,15 +56,26 @@ itemsR.forEach(item => {
     x: 0,
     scrollTrigger: {
       trigger: item,
-      start: 'top bottom',
+      start: 'top bottom',  // Элемент должен появляться, когда он появляется на экране
       end: 'top center',
-      scrub: true
+      scrub: true,
+      // Убираем исчезновение на мобильных устройствах
+      onEnter: () => {
+        if (ScrollTrigger.isTouch !== 1) {
+          gsap.to(item, { opacity: 1, x: 0 });
+        }
+      },
+      // Убираем исчезновение при выходе с экрана
+      onLeave: () => {
+        if (ScrollTrigger.isTouch !== 1) {
+          gsap.to(item, { opacity: 1, x: 0 });  // Не скрываем элемент
+        }
+      }
     }
   });
 });
 
 // Убираем лишние обновления ScrollTrigger, чтобы улучшить производительность
-// (если нет необходимости в постоянном обновлении).
 // gsap.ticker.add(() => {
 //   ScrollTrigger.update();
 // });
