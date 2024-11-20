@@ -1,7 +1,7 @@
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 // Установка плавного прокручивания только для ПК
-if (window.innerWidth > 768) {  // Отключаем для мобильных устройств (ширина экрана больше 768px)
+if (ScrollTrigger.isTouch !== 1) {
   ScrollSmoother.create({
     wrapper: '.wrapper',
     content: '.content',
@@ -21,7 +21,7 @@ gsap.fromTo('.hero-section', { opacity: 1 }, {
   }
 });
 
-// Упростим анимации для левых элементов галереи на мобильных
+// Анимация для левых элементов галереи с улучшениями
 let itemsL = gsap.utils.toArray('.gallery__left .gallery__item');
 itemsL.forEach(item => {
   gsap.fromTo(item, { opacity: 0, x: -50 }, {
@@ -34,16 +34,12 @@ itemsL.forEach(item => {
       end: '-100',
       scrub: true,
       // Ограничение анимации на мобильных устройствах
-      onEnter: () => { 
-        if (window.innerWidth <= 768) {
-          gsap.to(item, { opacity: 1, x: 0, duration: 0.5 });  // Простая анимация для мобильных устройств
-        }
-      }
+      onEnter: () => { if (ScrollTrigger.isTouch === 1) gsap.to(item, { opacity: 1, x: 0 }); }
     }
   });
 });
 
-// Упростим анимации для правых элементов галереи на мобильных
+// Анимация для правых элементов галереи с улучшениями
 let itemsR = gsap.utils.toArray('.gallery__right .gallery__item');
 itemsR.forEach(item => {
   gsap.fromTo(item, { opacity: 0, x: 50 }, {
@@ -56,16 +52,12 @@ itemsR.forEach(item => {
       end: 'top',
       scrub: true,
       // Ограничение анимации на мобильных устройствах
-      onEnter: () => { 
-        if (window.innerWidth <= 768) {
-          gsap.to(item, { opacity: 1, x: 0, duration: 0.5 });  // Простая анимация для мобильных устройств
-        }
-      }
+      onEnter: () => { if (ScrollTrigger.isTouch === 1) gsap.to(item, { opacity: 1, x: 0 }); }
     }
   });
 });
 
-// Отключаем ScrollSmoother и ScrollTrigger для мобильных устройств
-if (window.innerWidth <= 768) {
-  ScrollTrigger.refresh();  // Пересчитываем ScrollTrigger
-}
+// Обновление ScrollTrigger с каждым кадром
+gsap.ticker.add(() => {
+  ScrollTrigger.update();
+});
